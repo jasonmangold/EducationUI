@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Reports - Financial Advisor App</title>
+  <title>Reports - Advisys</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -20,7 +20,6 @@
       color: #1e293b;
     }
 
-    /* Header Styles */
     header {
       position: fixed;
       top: 0;
@@ -75,15 +74,6 @@
       color: #3b82f6;
     }
 
-    /* Main Layout */
-    .reports-page {
-      display: flex;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    /* Sidebar Styles */
     .sidebar {
       width: 280px;
       background: #ffffff;
@@ -105,18 +95,18 @@
     }
 
     .sidebar ul li {
-      margin-bottom: 12px;
+      margin: 10px 0;
     }
 
     .sidebar ul li a {
       text-decoration: none;
-      color: #475569;
+      color: #64748b;
       font-size: 14px;
       transition: color 0.2s;
     }
 
-    .sidebar ul li a:hover,
-    .sidebar ul li a.active {
+    .sidebar ul li a.active,
+    .sidebar ul li a:hover {
       color: #3b82f6;
     }
 
@@ -143,80 +133,15 @@
       color: #fff;
     }
 
-    /* Main Content Styles */
     .main-content {
       flex: 1;
       padding-left: 20px;
     }
 
-    .search-bar {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .search-bar input {
-      width: 100%;
-      padding: 14px 40px 14px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 12px;
-      background: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      outline: none;
-      transition: box-shadow 0.2s;
-    }
-
-    .search-bar input:focus {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-bar i {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #64748b;
-    }
-
-    .view-toggle {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-    }
-
-    .view-toggle button {
-      background: #eff6ff;
-      color: #3b82f6;
-      border: none;
-      padding: 8px 16px;
-      margin-left: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .view-toggle button.active {
-      background: #3b82f6;
-      color: #fff;
-    }
-
-    .view-toggle button:hover {
-      background: #60a5fa;
-      color: #fff;
-    }
-
-    /* Report Grid Styles */
-    .report-grid.grid-view {
+    .report-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
-    }
-
-    .report-grid.list-view {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
 
     .report-card {
@@ -228,15 +153,9 @@
       cursor: pointer;
     }
 
-    .report-card.grid-view:hover {
+    .report-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .report-card.list-view {
-      display: flex;
-      align-items: center;
-      padding: 15px;
     }
 
     .report-card-content {
@@ -256,38 +175,6 @@
       margin-bottom: 12px;
     }
 
-    .report-card .actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .report-card button {
-      background: linear-gradient(90deg, #3b82f6, #60a5fa);
-      color: #fff;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .report-card button:hover {
-      background: linear-gradient(90deg, #2563eb, #3b82f6);
-    }
-
-    .report-card i {
-      color: #64748b;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .report-card i:hover {
-      color: #3b82f6;
-    }
-
-    /* Modal Styles */
     .modal {
       display: none;
       position: fixed;
@@ -349,30 +236,6 @@
       line-height: 1.6;
     }
 
-    /* Pagination Styles */
-    .pagination {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .pagination button {
-      background: #eff6ff;
-      color: #3b82f6;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .pagination button:hover {
-      background: #60a5fa;
-      color: #fff;
-    }
-
-    /* Dark Mode Styles */
     body.dark-mode {
       background: #1e293b;
       color: #f1f5f9;
@@ -383,11 +246,6 @@
     body.dark-mode .report-card,
     body.dark-mode .modal-content {
       background: #334155;
-    }
-
-    body.dark-mode .search-bar input {
-      background: #475569;
-      color: #f1f5f9;
     }
 
     body.dark-mode .report-card h3,
@@ -408,7 +266,7 @@
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="#" class="active">Reports</a></li>
+        <li><a href="Reports.html" class="active">Reports</a></li>
         <li><a href="#">Calculators</a></li>
         <li><a href="#">Search</a></li>
         <li><a href="#">Profile</a></li>
@@ -422,608 +280,62 @@
   </header>
 
   <!-- Reports Page -->
-  <div class="reports-page">
+  <div class="reports-page" style="display: flex; padding: 20px;">
     <!-- Sidebar -->
     <div class="sidebar">
       <h3>Categories</h3>
       <ul id="category-filter">
         <li><a href="#" data-category="all" class="active">All</a></li>
         <li><a href="#" data-category="Personal Finance">Personal Finance</a></li>
-        <li><a href="#" data-category="Goal Setting">Goal Setting</a></li>
         <li><a href="#" data-category="Personal Cash Flow">Personal Cash Flow</a></li>
-        <li><a href="#" data-category="Calculators">Calculators</a></li>
+        <li><a href="#" data-category="Health and Medical">Health and Medical</a></li>
+        <li><a href="#" data-category="Employee Benefits">Employee Benefits</a></li>
+        <li><a href="#" data-category="Long-Term Care">Long-Term Care</a></li>
+        <li><a href="#" data-category="Disability">Disability</a></li>
+        <li><a href="#" data-category="Income Taxes">Income Taxes</a></li>
+        <li><a href="#" data-category="Home Ownership">Home Ownership</a></li>
+        <li><a href="#" data-category="Investments">Investments</a></li>
+        <li><a href="#" data-category="Retirement Planning">Retirement Planning</a></li>
+        <li><a href="#" data-category="Education Funding">Education Funding</a></li>
+        <li><a href="#" data-category="Protecting Your Finances">Protecting Your Finances</a></li>
+        <li><a href="#" data-category="Social Security and Other Government Programs">Social Security and Other Government Programs</a></li>
+        <li><a href="#" data-category="Estate Planning">Estate Planning</a></li>
+        <li><a href="#" data-category="Business Planning">Business Planning</a></li>
+        <li><a href="#" data-category="Charitable Planning">Charitable Planning</a></li>
+        <li><a href="#" data-category="Advisor Support">Advisor Support</a></li>
       </ul>
       <h3>Tags</h3>
       <div class="tag-cloud" id="tag-filter">
+        <span class="tag" data-tag="Planning">Planning</span>
         <span class="tag" data-tag="Inflation">Inflation</span>
+        <span class="tag" data-tag="Investment">Investment</span>
         <span class="tag" data-tag="Debt">Debt</span>
         <span class="tag" data-tag="Retirement">Retirement</span>
-        <span class="tag" data-tag="Investment">Investment</span>
-        <span class="tag" data-tag="Planning">Planning</span>
+        <span class="tag" data-tag="Insurance">Insurance</span>
+        <span class="tag" data-tag="Health">Health</span>
+        <span class="tag" data-tag="Taxes">Taxes</span>
+        <span class="tag" data-tag="Education">Education</span>
+        <span class="tag" data-tag="Business">Business</span>
+        <span class="tag" data-tag="Charitable Planning">Charitable Planning</span>
+        <span class="tag" data-tag="Advisor Tools">Advisor Tools</span>
+        <span class="tag" data-tag="Social Security">Social Security</span>
+        <span class="tag" data-tag="Medicare">Medicare</span>
+        <span class="tag" data-tag="Medicaid">Medicaid</span>
+        <span class="tag" data-tag="Estate Planning">Estate Planning</span>
+        <span class="tag" data-tag="Trusts">Trusts</span>
+        <span class="tag" data-tag="Wills">Wills</span>
       </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-      <div class="search-bar">
-        <input type="text" placeholder="Ask anything (e.g., ‘How much can my client contribute to a Roth IRA?’)">
-        <i class="fas fa-search"></i>
-      </div>
-
-      <div class="view-toggle">
-        <button id="grid-view-btn" class="active">Grid</button>
-        <button id="list-view-btn">List</button>
-      </div>
-
-      <!-- Report Grid/List -->
-      <div class="report-grid grid-view" id="report-grid">
-        <!-- Personal Finance -->
-        <div class="report-card" data-category="Personal Finance" data-tags="Planning" data-title="The Need for Financial Planning" data-content="This report outlines the importance of financial planning for individuals and families.">
-          <div class="report-card-content">
-            <h3>The Need for Financial Planning</h3>
-            <p>Understand why financial planning is essential.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Goal Setting -->
-        <div class="report-card" data-category="Goal Setting" data-tags="Investment" data-title="Accumulation Goals" data-content="Strategies for setting and achieving accumulation goals for wealth building.">
-          <div class="report-card-content">
-            <h3>Accumulation Goals</h3>
-            <p>Set goals to build wealth effectively.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Basic Steps in the Financial Planning Process" data-content="A step-by-step guide to the financial planning process.">
-          <div class="report-card-content">
-            <h3>Basic Steps in the Financial Planning Process</h3>
-            <p>Learn the essentials of financial planning.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Choose the Financial Planning Team" data-content="How to select the right professionals for your financial planning team.">
-          <div class="report-card-content">
-            <h3>Choose the Financial Planning Team</h3>
-            <p>Build a team for financial success.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Inflation" data-title="Consumer Price Index" data-content="Understanding the Consumer Price Index and its impact on finances.">
-          <div class="report-card-content">
-            <h3>Consumer Price Index</h3>
-            <p>Explore the CPI and its effects.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Inflation" data-title="Inflation" data-content="An overview of inflation and its implications for financial planning.">
-          <div class="report-card-content">
-            <h3>Inflation</h3>
-            <p>How inflation affects your money.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Inflation" data-title="Inflation (Graph)" data-content="Visual representation of inflation trends over time.">
-          <div class="report-card-content">
-            <h3>Inflation (Graph)</h3>
-            <p>See inflation trends visually.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Planning for Kids Going to College" data-content="Strategies for saving and planning for college expenses.">
-          <div class="report-card-content">
-            <h3>Planning for Kids Going to College</h3>
-            <p>Prepare for college costs.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Planning for the Adult Child at Home" data-content="Financial considerations for supporting adult children living at home.">
-          <div class="report-card-content">
-            <h3>Planning for the Adult Child at Home</h3>
-            <p>Support adult kids financially.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Planning for the Recent College Graduate" data-content="Financial advice for recent college graduates entering the workforce.">
-          <div class="report-card-content">
-            <h3>Planning for the Recent College Graduate</h3>
-            <p>Guide new grads financially.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Planning for the Recently Divorced" data-content="Financial planning tips for individuals post-divorce.">
-          <div class="report-card-content">
-            <h3>Planning for the Recently Divorced</h3>
-            <p>Navigate finances after divorce.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Planning for the Sandwich Generation" data-content="Managing finances for those supporting both kids and aging parents.">
-          <div class="report-card-content">
-            <h3>Planning for the Sandwich Generation</h3>
-            <p>Balance multi-generational needs.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="Planning for Women" data-content="Tailored financial planning strategies for women.">
-          <div class="report-card-content">
-            <h3>Planning for Women</h3>
-            <p>Financial planning for women.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Inflation" data-title="Purchasing Power of One Dollar" data-content="How inflation impacts the purchasing power of money over time.">
-          <div class="report-card-content">
-            <h3>Purchasing Power of One Dollar</h3>
-            <p>Understand money’s value over time.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Goal Setting" data-tags="Planning" data-title="The Financial Planning Puzzle" data-content="Piecing together the components of a comprehensive financial plan.">
-          <div class="report-card-content">
-            <h3>The Financial Planning Puzzle</h3>
-            <p>Solve the financial planning puzzle.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Personal Cash Flow -->
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Investment" data-title="Accumulating A Million Dollars" data-content="Steps to accumulate a million dollars through savings and investments.">
-          <div class="report-card-content">
-            <h3>Accumulating A Million Dollars</h3>
-            <p>Reach a million with smart saving.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Planning" data-title="Cash Management Tools" data-content="Tools and strategies for effective cash management.">
-          <div class="report-card-content">
-            <h3>Cash Management Tools</h3>
-            <p>Manage cash flow efficiently.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Debt" data-title="Checking Your Credit Report" data-content="How to review and improve your credit report.">
-          <div class="report-card-content">
-            <h3>Checking Your Credit Report</h3>
-            <p>Monitor and improve your credit.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Debt" data-title="Credit Cards" data-content="Understanding the use and management of credit cards.">
-          <div class="report-card-content">
-            <h3>Credit Cards</h3>
-            <p>Master credit card usage.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Debt" data-title="Debt Repayment Strategies" data-content="Effective strategies to pay off debt quickly.">
-          <div class="report-card-content">
-            <h3>Debt Repayment Strategies</h3>
-            <p>Pay off debt faster.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Debt" data-title="Financing an Auto" data-content="Options and tips for financing a vehicle purchase.">
-          <div class="report-card-content">
-            <h3>Financing an Auto</h3>
-            <p>Finance your car wisely.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Debt" data-title="Managing Your Debt" data-content="Techniques to manage and reduce personal debt.">
-          <div class="report-card-content">
-            <h3>Managing Your Debt</h3>
-            <p>Control your debt levels.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Planning" data-title="Personal Net Worth" data-content="How to calculate and improve your personal net worth.">
-          <div class="report-card-content">
-            <h3>Personal Net Worth</h3>
-            <p>Measure your financial health.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Debt" data-title="Repaying Student Debt" data-content="Strategies for managing and repaying student loans.">
-          <div class="report-card-content">
-            <h3>Repaying Student Debt</h3>
-            <p>Tackle student loans effectively.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Planning" data-title="The Personal Budget" data-content="Creating and maintaining a personal budget.">
-          <div class="report-card-content">
-            <h3>The Personal Budget</h3>
-            <p>Budget for financial success.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Planning" data-title="The Personal Budget Worksheet" data-content="A practical worksheet for personal budgeting.">
-          <div class="report-card-content">
-            <h3>The Personal Budget Worksheet</h3>
-            <p>Use this tool to budget.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Investment" data-title="Time and Growth of Money" data-content="The power of compound interest over time.">
-          <div class="report-card-content">
-            <h3>Time and Growth of Money</h3>
-            <p>Grow wealth with time.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Personal Cash Flow" data-tags="Debt" data-title="Up to Your Neck in Debt?" data-content="Solutions for overwhelming debt situations.">
-          <div class="report-card-content">
-            <h3>Up to Your Neck in Debt?</h3>
-            <p>Escape debt overload.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Calculators -->
-        <div class="report-card" data-category="Calculators" data-tags="Investment" data-title="Accumulating One Million Dollars" data-content="Calculate how to accumulate one million dollars over time.">
-          <div class="report-card-content">
-            <h3>Accumulating One Million Dollars</h3>
-            <p>Plan to reach a million.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Debt" data-title="Bi-Weekly Mortgage" data-content="Calculate savings with bi-weekly mortgage payments.">
-          <div class="report-card-content">
-            <h3>Bi-Weekly Mortgage</h3>
-            <p>Save with bi-weekly payments.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Planning" data-title="Cost of Procrastination" data-content="Estimate the cost of delaying financial decisions.">
-          <div class="report-card-content">
-            <h3>Cost of Procrastination</h3>
-            <p>See the cost of delay.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Investment" data-title="Amounts Needed to Accumulate a Future Sum" data-content="Determine savings needed for a future goal.">
-          <div class="report-card-content">
-            <h3>Amounts Needed to Accumulate a Future Sum</h3>
-            <p>Plan for future savings.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Inflation" data-title="Effect of Inflation" data-content="Calculate the impact of inflation on future costs.">
-          <div class="report-card-content">
-            <h3>Effect of Inflation</h3>
-            <p>Understand inflation’s impact.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Investment" data-title="Impact of the Rate of Return" data-content="See how rate of return affects investment growth.">
-          <div class="report-card-content">
-            <h3>Impact of the Rate of Return</h3>
-            <p>Measure return impact.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Debt" data-title="Impact of Making Additional Principal Payments" data-content="Calculate savings from extra principal payments.">
-          <div class="report-card-content">
-            <h3>Impact of Making Additional Principal Payments</h3>
-            <p>Save with extra payments.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Inflation" data-title="Inflation and Purchasing Power" data-content="Calculate how inflation affects purchasing power.">
-          <div class="report-card-content">
-            <h3>Inflation and Purchasing Power</h3>
-            <p>Assess inflation’s effect.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Planning" data-title="Lifetime Earnings" data-content="Estimate total earnings over a lifetime.">
-          <div class="report-card-content">
-            <h3>Lifetime Earnings</h3>
-            <p>Project your earnings.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Debt" data-title="Loan Amortization Schedule" data-content="Create a schedule for loan repayment.">
-          <div class="report-card-content">
-            <h3>Loan Amortization Schedule</h3>
-            <p>Plan loan repayment.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Investment" data-title="Pay Debt or Invest?" data-content="Compare paying off debt versus investing.">
-          <div class="report-card-content">
-            <h3>Pay Debt or Invest?</h3>
-            <p>Weigh debt vs. investment.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Investment" data-title="Pay Yourself First" data-content="Calculate the benefits of saving before spending.">
-          <div class="report-card-content">
-            <h3>Pay Yourself First</h3>
-            <p>Save before you spend.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Debt" data-title="Payments To Pay Off A Loan" data-content="Determine payments needed to pay off a loan.">
-          <div class="report-card-content">
-            <h3>Payments To Pay Off A Loan</h3>
-            <p>Calculate loan payoff.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="report-card" data-category="Calculators" data-tags="Planning" data-title="Personal Cash Flow Statement" data-content="Create a personal cash flow statement.">
-          <div class="report-card-content">
-            <h3>Personal Cash Flow Statement</h3>
-            <p>Track your cash flow.</p>
-            <div class="actions">
-              <button>Read More</button>
-              <div>
-                <i class="fas fa-heart"></i>
-                <i class="fas fa-share-alt" style="margin-left: 10px;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pagination -->
-      <div class="pagination">
-        <button>Previous</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>Next</button>
+      <div class="report-grid" id="report-grid">
+        <!-- Reports will be populated dynamically -->
       </div>
     </div>
   </div>
 
-  <!-- Modal for Viewing Reports -->
+  <!-- Modal -->
   <div class="modal" id="report-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -1036,77 +348,45 @@
 
   <!-- JavaScript -->
   <script>
-    // Dark mode toggle
-    document.querySelector('.dark-mode-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-    });
+    // Sample report data (replace with full data as needed)
+    const reports = [
+      { category: "Personal Finance", tags: ["Planning", "Inflation"], title: "A079S The Need for Financial Planning", content: "Explains the importance of financial planning." },
+      { category: "Personal Cash Flow", tags: ["Debt", "Planning"], title: "A632S Up to Your Neck in Debt?", content: "Strategies for managing overwhelming debt." },
+      // Add more reports here
+    ];
 
-    // View toggle functionality
-    const gridViewBtn = document.getElementById('grid-view-btn');
-    const listViewBtn = document.getElementById('list-view-btn');
     const reportGrid = document.getElementById('report-grid');
-    const modal = document.getElementById('report-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalContent = document.getElementById('modal-content');
-    const modalClose = document.getElementById('modal-close');
-    const categoryFilter = document.getElementById('category-filter');
-    const tagFilter = document.getElementById('tag-filter');
-    const reportCards = document.querySelectorAll('.report-card');
-
-    gridViewBtn.addEventListener('click', () => {
-      reportGrid.classList.remove('list-view');
-      reportGrid.classList.add('grid-view');
-      gridViewBtn.classList.add('active');
-      listViewBtn.classList.remove('active');
+    reports.forEach(report => {
+      const card = document.createElement('div');
+      card.classList.add('report-card');
+      card.setAttribute('data-category', report.category);
+      card.setAttribute('data-tags', report.tags.join(' '));
+      card.setAttribute('data-title', report.title);
+      card.setAttribute('data-content', report.content);
+      card.innerHTML = `
+        <div class="report-card-content">
+          <h3>${report.title}</h3>
+          <p>${report.content.substring(0, 100)}...</p>
+        </div>
+      `;
+      reportGrid.appendChild(card);
     });
 
-    listViewBtn.addEventListener('click', () => {
-      reportGrid.classList.remove('grid-view');
-      reportGrid.classList.add('list-view');
-      listViewBtn.classList.add('active');
-      gridViewBtn.classList.remove('active');
-    });
-
-    // Modal functionality
-    reportCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const title = card.getAttribute('data-title');
-        const content = card.getAttribute('data-content');
-        modalTitle.textContent = title;
-        modalContent.innerHTML = content;
-        modal.style.display = 'flex';
-      });
-    });
-
-    modalClose.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    // Filter and Tag functionality
     let selectedCategory = 'all';
     let selectedTags = [];
 
     function updateFilters() {
+      const reportCards = document.querySelectorAll('.report-card');
       reportCards.forEach(card => {
         const category = card.getAttribute('data-category');
         const tags = card.getAttribute('data-tags').split(' ');
         const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
         const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => tags.includes(tag));
-
-        if (matchesCategory && matchesTags) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
+        card.style.display = (matchesCategory && matchesTags) ? 'block' : 'none';
       });
     }
 
+    const categoryFilter = document.getElementById('category-filter');
     categoryFilter.addEventListener('click', (e) => {
       e.preventDefault();
       const target = e.target;
@@ -1118,6 +398,7 @@
       }
     });
 
+    const tagFilter = document.getElementById('tag-filter');
     tagFilter.addEventListener('click', (e) => {
       const target = e.target;
       if (target.classList.contains('tag')) {
@@ -1132,8 +413,29 @@
       }
     });
 
-    // Initial filter update
-    updateFilters();
+    const modal = document.getElementById('report-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const modalClose = document.getElementById('modal-close');
+
+    reportGrid.addEventListener('click', (e) => {
+      const card = e.target.closest('.report-card');
+      if (card) {
+        modalTitle.textContent = card.getAttribute('data-title');
+        modalContent.textContent = card.getAttribute('data-content');
+        modal.style.display = 'flex';
+      }
+    });
+
+    modalClose.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
