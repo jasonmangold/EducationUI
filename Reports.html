@@ -74,6 +74,11 @@
       color: #3b82f6;
     }
 
+    .reports-page {
+      display: flex;
+      padding: 20px;
+    }
+
     .sidebar {
       width: 280px;
       background: #ffffff;
@@ -95,47 +100,51 @@
     }
 
     .sidebar ul li {
-      margin: 10px 0;
+      margin-bottom: 12px;
     }
 
     .sidebar ul li a {
       text-decoration: none;
-      color: #64748b;
+      color: #475569;
       font-size: 14px;
       transition: color 0.2s;
     }
 
-    .sidebar ul li a.active,
-    .sidebar ul li a:hover {
+    .sidebar ul li a:hover,
+    .sidebar ul li a.active {
       color: #3b82f6;
-    }
-
-    .tag-cloud {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .tag {
-      background: #eff6ff;
-      color: #3b82f6;
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .tag.active,
-    .tag:hover {
-      background: #3b82f6;
-      color: #fff;
     }
 
     .main-content {
       flex: 1;
       padding-left: 20px;
+    }
+
+    .subfolder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .subfolder {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 15px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .subfolder:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .subfolder h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e293b;
     }
 
     .report-grid {
@@ -243,11 +252,13 @@
 
     body.dark-mode header,
     body.dark-mode .sidebar,
+    body.dark-mode .subfolder,
     body.dark-mode .report-card,
     body.dark-mode .modal-content {
       background: #334155;
     }
 
+    body.dark-mode .subfolder h3,
     body.dark-mode .report-card h3,
     body.dark-mode .modal-header h2 {
       color: #f1f5f9;
@@ -260,7 +271,6 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header>
     <div class="logo">Advisys</div>
     <nav>
@@ -279,9 +289,7 @@
     </div>
   </header>
 
-  <!-- Reports Page -->
-  <div class="reports-page" style="display: flex; padding: 20px;">
-    <!-- Sidebar -->
+  <div class="reports-page">
     <div class="sidebar">
       <h3>Categories</h3>
       <ul id="category-filter">
@@ -304,38 +312,16 @@
         <li><a href="#" data-category="Charitable Planning">Charitable Planning</a></li>
         <li><a href="#" data-category="Advisor Support">Advisor Support</a></li>
       </ul>
-      <h3>Tags</h3>
-      <div class="tag-cloud" id="tag-filter">
-        <span class="tag" data-tag="Planning">Planning</span>
-        <span class="tag" data-tag="Inflation">Inflation</span>
-        <span class="tag" data-tag="Investment">Investment</span>
-        <span class="tag" data-tag="Debt">Debt</span>
-        <span class="tag" data-tag="Retirement">Retirement</span>
-        <span class="tag" data-tag="Insurance">Insurance</span>
-        <span class="tag" data-tag="Health">Health</span>
-        <span class="tag" data-tag="Taxes">Taxes</span>
-        <span class="tag" data-tag="Education">Education</span>
-        <span class="tag" data-tag="Business">Business</span>
-        <span class="tag" data-tag="Charitable Planning">Charitable Planning</span>
-        <span class="tag" data-tag="Advisor Tools">Advisor Tools</span>
-        <span class="tag" data-tag="Social Security">Social Security</span>
-        <span class="tag" data-tag="Medicare">Medicare</span>
-        <span class="tag" data-tag="Medicaid">Medicaid</span>
-        <span class="tag" data-tag="Estate Planning">Estate Planning</span>
-        <span class="tag" data-tag="Trusts">Trusts</span>
-        <span class="tag" data-tag="Wills">Wills</span>
-      </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
-      <div class="report-grid" id="report-grid">
-        <!-- Reports will be populated dynamically -->
+      <div id="subfolder-container" class="subfolder-grid" style="display: none;">
+        <!-- Subfolders will be populated here -->
       </div>
+      <div id="report-grid" class="report-grid"></div>
     </div>
   </div>
 
-  <!-- Modal -->
   <div class="modal" id="report-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -346,47 +332,82 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
   <script>
-    // Sample report data (replace with full data as needed)
     const reports = [
-      { category: "Personal Finance", tags: ["Planning", "Inflation"], title: "A079S The Need for Financial Planning", content: "Explains the importance of financial planning." },
-      { category: "Personal Cash Flow", tags: ["Debt", "Planning"], title: "A632S Up to Your Neck in Debt?", content: "Strategies for managing overwhelming debt." },
-      // Add more reports here
+      // Personal Finance (example)
+      { category: "Personal Finance", title: "A079S The Need for Financial Planning", content: "Explains the importance of financial planning." },
+      // Retirement Planning Subcategories
+      { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A454S The Need for Retirement Planning", content: "Overview of why retirement planning is essential." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A119S Social Security Retirement Benefits", content: "Details on Social Security benefits." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A436S How a Roth IRA Works", content: "Explains Roth IRA mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A442S How a 401(k) Cash or Deferred Plan Works", content: "Details on 401(k) plans." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A481S Required Minimum Distributions", content: "Rules for RMDs." },
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A696S Health Care Planning In Retirement", content: "Health care strategies for retirees." },
+      // Add more reports as needed
     ];
 
+    const subfolders = {
+      "Retirement Planning": [
+        { name: "The Retirement Need", description: "General retirement planning topics." },
+        { name: "Retirement Income Sources", description: "Sources like Social Security and annuities." },
+        { name: "Individual Retirement Plans", description: "IRAs and personal retirement options." },
+        { name: "Employer Sponsored Plans", description: "401(k)s and company plans." },
+        { name: "Retirement Distributions", description: "Distributions and tax rules." },
+        { name: "Health Care Planning in Retirement", description: "Health care in retirement." }
+      ]
+    };
+
     const reportGrid = document.getElementById('report-grid');
-    reports.forEach(report => {
-      const card = document.createElement('div');
-      card.classList.add('report-card');
-      card.setAttribute('data-category', report.category);
-      card.setAttribute('data-tags', report.tags.join(' '));
-      card.setAttribute('data-title', report.title);
-      card.setAttribute('data-content', report.content);
-      card.innerHTML = `
-        <div class="report-card-content">
-          <h3>${report.title}</h3>
-          <p>${report.content.substring(0, 100)}...</p>
-        </div>
-      `;
-      reportGrid.appendChild(card);
-    });
+    const subfolderContainer = document.getElementById('subfolder-container');
+    const categoryFilter = document.getElementById('category-filter');
+    const modal = document.getElementById('report-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const modalClose = document.getElementById('modal-close');
 
     let selectedCategory = 'all';
-    let selectedTags = [];
+    let selectedSubcategory = null;
 
-    function updateFilters() {
-      const reportCards = document.querySelectorAll('.report-card');
-      reportCards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        const tags = card.getAttribute('data-tags').split(' ');
-        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
-        const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => tags.includes(tag));
-        card.style.display = (matchesCategory && matchesTags) ? 'block' : 'none';
+    function renderSubfolders(category) {
+      subfolderContainer.innerHTML = '';
+      if (subfolders[category]) {
+        subfolders[category].forEach(subfolder => {
+          const div = document.createElement('div');
+          div.classList.add('subfolder');
+          div.setAttribute('data-subcategory', subfolder.name);
+          div.innerHTML = `<h3>${subfolder.name}</h3><p>${subfolder.description}</p>`;
+          subfolderContainer.appendChild(div);
+        });
+        subfolderContainer.style.display = 'grid';
+        reportGrid.style.display = 'none';
+      } else {
+        subfolderContainer.style.display = 'none';
+        reportGrid.style.display = 'grid';
+        renderReports();
+      }
+    }
+
+    function renderReports() {
+      reportGrid.innerHTML = '';
+      reports.forEach(report => {
+        if (selectedCategory === 'all' || report.category === selectedCategory) {
+          if (!selectedSubcategory || (report.subcategory && report.subcategory === selectedSubcategory)) {
+            const card = document.createElement('div');
+            card.classList.add('report-card');
+            card.setAttribute('data-title', report.title);
+            card.setAttribute('data-content', report.content);
+            card.innerHTML = `
+              <div class="report-card-content">
+                <h3>${report.title}</h3>
+                <p>${report.content.substring(0, 100)}...</p>
+              </div>
+            `;
+            reportGrid.appendChild(card);
+          }
+        }
       });
     }
 
-    const categoryFilter = document.getElementById('category-filter');
     categoryFilter.addEventListener('click', (e) => {
       e.preventDefault();
       const target = e.target;
@@ -394,29 +415,23 @@
         categoryFilter.querySelectorAll('a').forEach(a => a.classList.remove('active'));
         target.classList.add('active');
         selectedCategory = target.getAttribute('data-category');
-        updateFilters();
-      }
-    });
-
-    const tagFilter = document.getElementById('tag-filter');
-    tagFilter.addEventListener('click', (e) => {
-      const target = e.target;
-      if (target.classList.contains('tag')) {
-        target.classList.toggle('active');
-        const tag = target.getAttribute('data-tag');
-        if (target.classList.contains('active')) {
-          selectedTags.push(tag);
-        } else {
-          selectedTags = selectedTags.filter(t => t !== tag);
+        selectedSubcategory = null;
+        renderSubfolders(selectedCategory);
+        if (selectedCategory !== 'Retirement Planning') {
+          renderReports();
         }
-        updateFilters();
       }
     });
 
-    const modal = document.getElementById('report-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalContent = document.getElementById('modal-content');
-    const modalClose = document.getElementById('modal-close');
+    subfolderContainer.addEventListener('click', (e) => {
+      const subfolder = e.target.closest('.subfolder');
+      if (subfolder) {
+        selectedSubcategory = subfolder.getAttribute('data-subcategory');
+        subfolderContainer.style.display = 'none';
+        reportGrid.style.display = 'grid';
+        renderReports();
+      }
+    });
 
     reportGrid.addEventListener('click', (e) => {
       const card = e.target.closest('.report-card');
@@ -436,6 +451,9 @@
         modal.style.display = 'none';
       }
     });
+
+    // Initial render
+    renderReports();
   </script>
 </body>
 </html>
