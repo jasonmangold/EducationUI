@@ -120,6 +120,67 @@
       padding-left: 20px;
     }
 
+    .search-bar {
+      position: sticky;
+      top: 80px;
+      z-index: 100;
+      background: #f8fafc;
+      padding: 10px 0;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 14px 40px 14px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      outline: none;
+      transition: box-shadow 0.2s;
+    }
+
+    .search-bar input:focus {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-bar i {
+      position: absolute;
+      right: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+    }
+
+    .view-toggle {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .view-toggle button {
+      background: #eff6ff;
+      color: #3b82f6;
+      border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .view-toggle button.active {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    .view-toggle button:hover {
+      background: #60a5fa;
+      color: #fff;
+    }
+
     .subfolder-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -147,10 +208,16 @@
       color: #1e293b;
     }
 
-    .report-grid {
+    .report-grid.grid-view {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
+    }
+
+    .report-grid.list-view {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .report-card {
@@ -162,13 +229,24 @@
       cursor: pointer;
     }
 
-    .report-card:hover {
+    .report-card.grid-view:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
+    .report-card.list-view {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+
     .report-card-content {
       padding: 15px;
+    }
+
+    .report-card.list-view .report-card-content {
+      flex: 1;
+      padding: 10px;
     }
 
     .report-card h3 {
@@ -182,6 +260,10 @@
       font-size: 14px;
       color: #64748b;
       margin-bottom: 12px;
+    }
+
+    .report-card.list-view p {
+      margin-bottom: 0;
     }
 
     .modal {
@@ -258,6 +340,11 @@
       background: #334155;
     }
 
+    body.dark-mode .search-bar input {
+      background: #475569;
+      color: #f1f5f9;
+    }
+
     body.dark-mode .subfolder h3,
     body.dark-mode .report-card h3,
     body.dark-mode .modal-header h2 {
@@ -298,7 +385,7 @@
         <li><a href="#" data-category="Personal Cash Flow">Personal Cash Flow</a></li>
         <li><a href="#" data-category="Health and Medical">Health and Medical</a></li>
         <li><a href="#" data-category="Employee Benefits">Employee Benefits</a></li>
-        <li><a href="#" data-category="Long-Term Care">Long-Term Care</a></li>
+        <li><a href#" data-category="Long-Term Care">Long-Term Care</a></li>
         <li><a href="#" data-category="Disability">Disability</a></li>
         <li><a href="#" data-category="Income Taxes">Income Taxes</a></li>
         <li><a href="#" data-category="Home Ownership">Home Ownership</a></li>
@@ -315,10 +402,16 @@
     </div>
 
     <div class="main-content">
-      <div id="subfolder-container" class="subfolder-grid" style="display: none;">
-        <!-- Subfolders will be populated here -->
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search reports...">
+        <i class="fas fa-search"></i>
       </div>
-      <div id="report-grid" class="report-grid"></div>
+      <div class="view-toggle">
+        <button id="grid-view-btn" class="active">Grid</button>
+        <button id="list-view-btn">List</button>
+      </div>
+      <div id="subfolder-container" class="subfolder-grid" style="display: none;"></div>
+      <div id="report-grid" class="report-grid grid-view"></div>
     </div>
   </div>
 
@@ -336,14 +429,122 @@
     const reports = [
       // Personal Finance (example)
       { category: "Personal Finance", title: "A079S The Need for Financial Planning", content: "Explains the importance of financial planning." },
-      // Retirement Planning Subcategories
+      { category: "Personal Cash Flow", title: "A632S Up to Your Neck in Debt?", content: "Strategies for managing overwhelming debt." },
+      // Retirement Planning - The Retirement Need
       { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A454S The Need for Retirement Planning", content: "Overview of why retirement planning is essential." },
-      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A119S Social Security Retirement Benefits", content: "Details on Social Security benefits." },
-      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A436S How a Roth IRA Works", content: "Explains Roth IRA mechanics." },
-      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A442S How a 401(k) Cash or Deferred Plan Works", content: "Details on 401(k) plans." },
-      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A481S Required Minimum Distributions", content: "Rules for RMDs." },
+      { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A619S Evaluating Early Retirement Offers", content: "Guide to assessing early retirement options." },
+      { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A757S Do You Desire Retirement Peace of Mind?", content: "Steps to achieve retirement peace." },
+      { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A679S Average Life Expectancy at Age 65", content: "Life expectancy stats for planning." },
+      // Retirement Income Sources
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A118S An Overview of Social Security Benefits", content: "Overview of Social Security benefits." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A649S Annuities in Retirement Income Planning", content: "Using annuities for retirement income." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A087S Deferred Annuities", content: "Details on deferred annuities." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A751S Deferred Income Annuities", content: "How deferred income annuities work." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A698S How a Deferred Annuity Works", content: "Mechanics of deferred annuities." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A784S How a Deferred Income Annuity Works", content: "Explains deferred income annuities." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A434S How a Reverse Mortgage Works", content: "Reverse mortgage mechanics." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A697S How an Immediate Annuity Works", content: "Immediate annuity details." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A120S How Work Affects Social Security Benefits", content: "Impact of work on benefits." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A633S Immediate Annuities", content: "Overview of immediate annuities." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A528S Nonqualified Deferred Compensation [Avoiding Constructive Receipt]", content: "Deferred comp strategies." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A452S Retirement and the Business Professional", content: "Retirement for professionals." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A435S Reverse Mortgages", content: "Using reverse mortgages for income." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A119S Social Security Retirement Benefits", content: "Details on SS retirement benefits." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A795S Social Security Retirement Claiming Strategies for Married Couples", content: "SS strategies for couples." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A450S Sources of Retirement Income", content: "Overview of income sources." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A193S Supplementing Retirement Income With a Charitable Remainder Unitrust", content: "Using trusts for income." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A719S Taxation of Nonqualified Annuities", content: "Tax rules for annuities." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A463S Early or Delayed Retirement's Effect on Social Security Benefits", content: "Timing SS benefits." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A929S Using Life Insurance to Fund Retirement", content: "Life insurance for retirement." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A628S When to Take Social Security Retirement Benefits", content: "Best timing for SS." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A489S Who Receives Social Security Benefits?", content: "Eligibility for SS benefits." },
+      // Individual Retirement Plans
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A059S Deductible IRA Contributions for Traditional IRAs", content: "IRA deduction rules." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A084S Does It Matter When You Contribute to an IRA? - Table", content: "Timing IRA contributions." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A436S How a Roth IRA Works", content: "Roth IRA mechanics." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A503S How a Solo 401(k) Plan Works", content: "Solo 401(k) details." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A439S How a Traditional IRA Works", content: "Traditional IRA mechanics." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A715S IRA Historical Limits (Traditional and Roth IRAs)", content: "IRA contribution limits." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A302S IRAs Compared", content: "Comparing IRA types." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A938S Registered Index-Linked Annuity", content: "Index-linked annuity overview." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A928S Retirement Savings Contribution Credit", content: "Tax credit for savings." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A720S Roth IRA Conversion - Factors to Consider", content: "Roth conversion factors." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A292S Roth IRAs", content: "Overview of Roth IRAs." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A502S Solo 401(k)", content: "Solo 401(k) overview." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A083S Tax-Deferred Growth in an IRA - Traditional IRA", content: "Tax benefits of IRAs." },
+      { category: "Retirement Planning", subcategory: "Individual Retirement Plans", title: "A099S Traditional IRAs", content: "Traditional IRA overview." },
+      // Employer Sponsored Plans
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A101S 403(b) Salary Deferral Plan (Tax-Sheltered Annuities)", content: "403(b) overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A113S Age-Weighted Profit Sharing Plan", content: "Age-weighted plan details." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A908S Cash Balance Pension Plan", content: "Cash balance plan overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A111S Cash or Deferred 401(k) Plan", content: "401(k) basics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A451S Combinations of Retirement Plans", content: "Mixing retirement plans." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A303S Defined Contribution Plans Compared", content: "Comparing DC plans." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A110S Employee Stock Ownership Plan (ESOP)", content: "ESOP overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A306S Employer Plan Fiduciary Standards and Responsibilities", content: "Fiduciary duties." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A833S Five Options When Changing Job", content: "Job change options." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A114S Fully-Insured Defined Benefit Plan (IRC Sec. 412(e)(3))", content: "Fully-insured DB plan." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A442S How a 401(k) Cash or Deferred Plan Works", content: "401(k) mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A103S How a 403(b) Salary Deferral Plan Works", content: "403(b) mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A460S How a Nontraditional Defined Contribution Plan Works", content: "Nontraditional DC plans." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A443S How a SEP-IRA Works", content: "SEP-IRA mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A444S How a SIMPLE IRA Works", content: "SIMPLE IRA mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A457S How a Traditional Defined Benefit Plan Works", content: "Traditional DB plan mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A458S How a Traditional Money Purchase Plan Works", content: "Money purchase plan mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A459S How a Traditional Profit Sharing Plan Works", content: "Profit sharing plan mechanics." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A104S Keogh Plans - H.R. 10", content: "Keogh plan overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A620S Making the Most of Your Retirement Plan", content: "Maximizing plan benefits." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A107S Nontraditional Defined Contribution Plan", content: "Nontraditional DC overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A307S Prohibited Transactions Rules", content: "Rules for plan transactions." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A714S Qualified Plan Historical Limits", content: "Historical plan limits." },
+      { kategori: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A308S Qualified Plan Participant Loans", content: "Plan loan details." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A289S Qualified Plans Compared", content: "Comparing qualified plans." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A115S Qualified Retirement Plans", content: "Overview of qualified plans." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A545S Qualified Roth Contribution Program", content: "Roth contribution program." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A324S Safe Harbor 401(k) Plan", content: "Safe harbor 401(k) details." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A268S SIMPLE Retirement Plan", content: "SIMPLE plan overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A102S Simplified Employee Pension (SEP)", content: "SEP overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A112S Stock Bonus Plan", content: "Stock bonus plan details." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A109S Target Benefit Plan", content: "Target benefit plan overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A305S Top-Heavy Plans", content: "Top-heavy plan rules." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A108S Traditional Defined Benefit Plan", content: "Traditional DB overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A106S Traditional Money Purchase Plan", content: "Money purchase overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A105S Traditional Profit Sharing Plan", content: "Profit sharing overview." },
+      { category: "Retirement Planning", subcategory: "Employer Sponsored Plans", title: "A322S Unrelated Business Taxable Income (UBTI)", content: "UBTI in plans." },
+      // Retirement Distributions
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A916S Distribution Options for Inherited, Nonqualified Annuities", content: "Inherited annuity options." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A892S Inherited Retirement Accounts - Required Distributions Under the SECURE Acts", content: "SECURE Act RMDs." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A061S IRA Rollover of Qualified Plan Values vs. Lump-Sum Tax Treatment", content: "Rollover vs. lump-sum." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A523S Joint Life and Last Survivor Table", content: "Joint life table." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A904S Joint and Last Survivor Table (2022)", content: "Updated joint life table." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A065S Lump-Sum Distributions Before Age 59-1/2", content: "Early lump-sum rules." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A665S Net Unrealized Appreciation", content: "NUA tax treatment." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A828S Qualified Charitable Distribution", content: "QCD rules." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A481S Required Minimum Distributions", content: "RMD requirements." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A067S Retirement Plan Distributions Before Age 59-1/2", content: "Early distribution rules." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A524S Single Life Table", content: "Single life expectancy table." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A905S Single Life Table (2022)", content: "Updated single life table." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A695S Substantially Equal Periodic Payments", content: "SEPP rules." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A525S The Basics of Required Minimum Distributions", content: "RMD basics." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A522S Uniform Lifetime Table", content: "Uniform lifetime table." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A903S Uniform Lifetime Table (2022)", content: "Updated uniform table." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A100S IRA Rollover as a Qualified Plan Conduit", content: "IRA rollover conduit." },
+      { category: "Retirement Planning", subcategory: "Retirement Distributions", title: "A066S Mandatory Withholding for Plan Distributions", content: "Withholding rules." },
+      // Health Care Planning in Retirement
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A017S Advance Health Care Directives (End-of-Life Decision Making)", content: "End-of-life directives." },
       { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A696S Health Care Planning In Retirement", content: "Health care strategies for retirees." },
-      // Add more reports as needed
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A565S How Medicare Prescription Drug Coverage Works", content: "Medicare Part D details." },
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A717S Medicaid", content: "Medicaid overview." },
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A041S Medicare Part C - Medicare Advantage", content: "Medicare Advantage details." },
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A544S Medicare Part D - Prescription Drug Coverage", content: "Prescription coverage overview." },
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A122S Medicare Parts A and B", content: "Medicare A and B overview." },
+      { category: "Retirement Planning", subcategory: "Health Care Planning in Retirement", title: "A624S When the Parent Becomes the Child", content: "Caregiving in retirement." },
+      // Other Retirement Reports
+      { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A499S 2001 Commissioners' Standard Ordinary (CSO) Mortality Table", content: "CSO mortality table." },
+      { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A500S Deaths per Thousand at Various Ages (2001 CSO)", content: "Death stats by age." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A032S Life Insurance in Qualified Plans (Legal Limitations)", content: "Life insurance limits in plans." },
+      { category: "Retirement Planning", subcategory: "Retirement Income Sources", title: "A124S Pension Income Alternative", content: "Alternative pension income options." },
+      { category: "Retirement Planning", subcategory: "The Retirement Need", title: "A501S The Chance of Dying Before Age 65", content: "Mortality risk before 65." }
     ];
 
     const subfolders = {
@@ -360,6 +561,9 @@
     const reportGrid = document.getElementById('report-grid');
     const subfolderContainer = document.getElementById('subfolder-container');
     const categoryFilter = document.getElementById('category-filter');
+    const searchInput = document.getElementById('search-input');
+    const gridViewBtn = document.getElementById('grid-view-btn');
+    const listViewBtn = document.getElementById('list-view-btn');
     const modal = document.getElementById('report-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalContent = document.getElementById('modal-content');
@@ -367,6 +571,7 @@
 
     let selectedCategory = 'all';
     let selectedSubcategory = null;
+    let viewMode = 'grid';
 
     function renderSubfolders(category) {
       subfolderContainer.innerHTML = '';
@@ -389,23 +594,28 @@
 
     function renderReports() {
       reportGrid.innerHTML = '';
+      const searchTerm = searchInput.value.toLowerCase();
       reports.forEach(report => {
-        if (selectedCategory === 'all' || report.category === selectedCategory) {
-          if (!selectedSubcategory || (report.subcategory && report.subcategory === selectedSubcategory)) {
-            const card = document.createElement('div');
-            card.classList.add('report-card');
-            card.setAttribute('data-title', report.title);
-            card.setAttribute('data-content', report.content);
-            card.innerHTML = `
-              <div class="report-card-content">
-                <h3>${report.title}</h3>
-                <p>${report.content.substring(0, 100)}...</p>
-              </div>
-            `;
-            reportGrid.appendChild(card);
-          }
+        const matchesCategory = selectedCategory === 'all' || report.category === selectedCategory;
+        const matchesSubcategory = !selectedSubcategory || (report.subcategory && report.subcategory === selectedSubcategory);
+        const matchesSearch = report.title.toLowerCase().includes(searchTerm) || report.content.toLowerCase().includes(searchTerm);
+        if (matchesCategory && matchesSubcategory && matchesSearch) {
+          const card = document.createElement('div');
+          card.classList.add('report-card');
+          card.classList.add(`${viewMode}-view`);
+          card.setAttribute('data-title', report.title);
+          card.setAttribute('data-content', report.content);
+          card.innerHTML = `
+            <div class="report-card-content">
+              <h3>${report.title}</h3>
+              <p>${report.content.substring(0, 100)}...</p>
+            </div>
+          `;
+          reportGrid.appendChild(card);
         }
       });
+      reportGrid.classList.remove('grid-view', 'list-view');
+      reportGrid.classList.add(`${viewMode}-view`);
     }
 
     categoryFilter.addEventListener('click', (e) => {
@@ -431,6 +641,31 @@
         reportGrid.style.display = 'grid';
         renderReports();
       }
+    });
+
+    searchInput.addEventListener('input', () => {
+      if (selectedCategory === 'Retirement Planning' && !selectedSubcategory) {
+        subfolderContainer.style.display = 'grid';
+        reportGrid.style.display = 'none';
+      } else {
+        subfolderContainer.style.display = 'none';
+        reportGrid.style.display = 'grid';
+        renderReports();
+      }
+    });
+
+    gridViewBtn.addEventListener('click', () => {
+      viewMode = 'grid';
+      gridViewBtn.classList.add('active');
+      listViewBtn.classList.remove('active');
+      renderReports();
+    });
+
+    listViewBtn.addEventListener('click', () => {
+      viewMode = 'list';
+      listViewBtn.classList.add('active');
+      gridViewBtn.classList.remove('active');
+      renderReports();
     });
 
     reportGrid.addEventListener('click', (e) => {
