@@ -405,6 +405,13 @@
       margin-top: 5px;
     }
 
+    .modal-body .highlight {
+      background-color: #eff6ff;
+      color: #3b82f6;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
     .modal-footer {
       display: flex;
       justify-content: flex-end;
@@ -462,6 +469,11 @@
     body.dark-mode .modal-body th {
       background-color: #475569;
       color: #f1f5f9;
+    }
+
+    body.dark-mode .modal-body .highlight {
+      background-color: #60a5fa;
+      color: #fff;
     }
   </style>
 </head>
@@ -605,6 +617,7 @@
     let selectedCategory = 'all';
     let selectedSubcategory = null;
     let viewMode = 'grid';
+    let lastSearchTerm = '';
 
     function renderSubfolders(category) {
       subfolderContainer.innerHTML = '';
@@ -633,10 +646,12 @@
     function renderReports() {
       reportGrid.innerHTML = '';
       const searchTerm = searchInput.value.toLowerCase();
+      lastSearchTerm = searchTerm; // Store for modal highlighting
       reports.forEach(report => {
+        const plainContent = report.content.replace(/<[^>]+>/g, '');
         const matchesCategory = selectedCategory === 'all' || report.category === selectedCategory;
         const matchesSubcategory = !selectedSubcategory || (report.subcategory && report.subcategory === selectedSubcategory);
-        const matchesSearch = report.title.toLowerCase().includes(searchTerm) || report.content.toLowerCase().includes(searchTerm);
+        const matchesSearch = !searchTerm || report.title.toLowerCase().includes(searchTerm) || plainContent.toLowerCase().includes(searchTerm);
         if (matchesCategory && matchesSubcategory && matchesSearch) {
           const card = document.createElement('div');
           card.classList.add('report-card');
@@ -646,7 +661,7 @@
           card.innerHTML = `
             <div class="report-card-content">
               <h3>${report.title}</h3>
-              ${viewMode === 'grid' ? `<p>${report.content.replace(/<[^>]+>/g, '').substring(0, 100)}...</p>` : ''}
+              ${viewMode === 'grid' ? `<p>${plainContent.substring(0, 100)}...</p>` : ''}
             </div>
           `;
           reportGrid.appendChild(card);
@@ -717,7 +732,13 @@
       const card = e.target.closest('.report-card');
       if (card) {
         modalTitle.textContent = card.getAttribute('data-title');
-        modalContent.innerHTML = card.getAttribute('data-content');
+        let content = card.getAttribute('data-content');
+        if (lastSearchTerm) {
+          // Case-insensitive regex to highlight search term
+          const regex = new RegExp(`(${lastSearchTerm})`, 'gi');
+          content = content.replace(regex, '<span class="highlight">$1</span>');
+        }
+        modalContent.innerHTML = content;
         modal.style.display = 'flex';
       }
     });
