@@ -110,7 +110,7 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+      gap: 25px; /* Increased gap for better spacing */
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 20px;
@@ -124,6 +124,9 @@
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
+      min-height: 300px; /* Prevent collapse during loading */
+      display: flex;
+      flex-direction: column;
     }
 
     .card:hover {
@@ -135,10 +138,15 @@
       width: 100%;
       height: 140px;
       object-fit: cover;
+      flex-shrink: 0; /* Prevent image from shrinking */
     }
 
     .card-content {
       padding: 15px;
+      flex-grow: 1; /* Allow content to fill remaining space */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .card h3 {
@@ -152,6 +160,7 @@
       font-size: 14px;
       color: #64748b;
       margin-bottom: 12px;
+      flex-grow: 1; /* Ensure text takes available space */
     }
 
     .card button {
@@ -163,6 +172,7 @@
       cursor: pointer;
       font-weight: 600;
       transition: background 0.2s;
+      align-self: flex-start; /* Align button properly */
     }
 
     .card button:hover {
@@ -174,7 +184,7 @@
       font-size: 20px;
       font-weight: 600;
       color: #1e293b;
-      margin: 20px;
+      margin: 20px 0;
       text-align: center;
     }
 
@@ -239,6 +249,14 @@
     body.dark-mode .card p,
     body.dark-mode .sidebar p {
       color: #94a3b8;
+    }
+
+    /* Ensure consistent layout during loading */
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
     }
   </style>
 </head>
